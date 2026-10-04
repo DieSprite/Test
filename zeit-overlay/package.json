@@ -23,6 +23,7 @@
   "build": {
     "appId": "de.czernitzki.zeit-overlay",
     "productName": "Zeit-Overlay",
+    "npmRebuild": false,
     "files": [
       "src/**/*",
       "build/icon.png",
