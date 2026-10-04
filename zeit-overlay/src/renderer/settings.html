@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com">
+<title>Zeit-Overlay · Einstellungen</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700;800&family=Red+Hat+Text:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="settings.css">
+</head>
+<body>
+<main>
+  <h1>Einstellungen</h1>
+  <p class="lead">Woher die Projekte kommen und wie sich das Overlay verhält.</p>
+
+  <form id="f" autocomplete="off">
+    <h2>Anbindung</h2>
+    <label class="field"><span>Anbieter</span>
+      <select id="provider">
+        <option value="clickup">ClickUp</option>
+        <option value="demo">Demo (ohne Verbindung, zum Ausprobieren)</option>
+      </select>
+    </label>
+
+    <div id="cuBox">
+      <label class="field"><span>Persönliches ClickUp-Token</span>
+        <input id="token" type="password" placeholder="pk_…">
+        <small id="tokenHint">In ClickUp: Avatar → Einstellungen → Apps → API-Token generieren.</small>
+      </label>
+      <div class="row">
+        <button type="button" class="btn" id="loadTeams">Workspaces laden</button>
+        <button type="button" class="btn" id="test">Verbindung testen</button>
+      </div>
+      <label class="field"><span>Workspace</span>
+        <select id="teamId"><option value="">– erst Workspaces laden –</option></select>
+      </label>
+      <fieldset class="field" id="spaceBox">
+        <legend>Spaces mit Projekten <small>(keine Auswahl = alle)</small></legend>
+        <div id="spaces" class="checks"><small>Workspace wählen, dann erscheinen die Spaces.</small></div>
+      </fieldset>
+      <p class="note">Projekt = ClickUp-Liste, Aktivität = Aufgabe in dieser Liste. Gebucht wird als ClickUp-Zeiteintrag auf die Aufgabe.</p>
+    </div>
+
+    <h2>Overlay</h2>
+    <label class="field"><span>Deckkraft im Ruhezustand: <b id="opVal"></b></span>
+      <input id="idleOpacity" type="range" min="0.1" max="1" step="0.05">
+    </label>
+    <label class="check"><input id="ctrlHold" type="checkbox"> Strg gedrückt halten macht das Overlay anklickbar</label>
+    <label class="field"><span>Shortcut zum Anheften (dauerhaft anklickbar)</span>
+      <input id="toggleShortcut" type="text" placeholder="Control+Alt+T">
+      <small>Schreibweise wie Control+Alt+T oder Control+Shift+Space.</small>
+    </label>
+    <label class="check"><input id="autostart" type="checkbox"> Mit Windows starten</label>
+
+    <div class="actions">
+      <span id="status" role="status"></span>
+      <button type="submit" class="btn primary">Speichern</button>
+    </div>
+  </form>
+</main>
+<script src="settings.js"></script>
+</body>
+</html>

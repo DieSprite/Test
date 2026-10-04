@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:">
+<title>Zeit-Overlay</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700;800&family=Red+Hat+Text:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="overlay.css">
+</head>
+<body>
+<div class="root" id="root">
+  <section class="bar" id="bar" aria-label="Laufender Timer">
+    <div class="grip" title="Verschieben" aria-hidden="true"></div>
+    <span class="dot" id="dot" aria-hidden="true"></span>
+    <div class="what">
+      <div class="proj" id="proj">Kein Timer aktiv</div>
+      <div class="act" id="act">Strg halten zum Klicken</div>
+    </div>
+    <div class="time" id="time" aria-live="off">00:00:00</div>
+    <button class="btn go" id="toggle" title="Timer starten" aria-label="Timer starten">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path id="toggleIco" d="M8 5v14l11-7z"/></svg>
+    </button>
+    <button class="btn plain" id="pick" title="Projekt wechseln" aria-label="Projekt wechseln" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </section>
+
+  <section class="panel" id="panel" hidden aria-label="Projekt und Aktivität wählen">
+    <div class="panel-head">
+      <button class="btn plain sm" id="back" hidden aria-label="Zurück zu den Projekten">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <input id="search" type="search" placeholder="Projekt suchen …" autocomplete="off" aria-label="Suchen">
+    </div>
+    <div class="note-row" id="noteRow" hidden>
+      <input id="note" type="text" placeholder="Notiz (optional)" autocomplete="off" aria-label="Notiz">
+    </div>
+    <div class="list" id="list" role="listbox"></div>
+    <div class="panel-foot">
+      <button class="link" id="reload">Aktualisieren</button>
+      <span class="src" id="src"></span>
+      <button class="link" id="settings">Einstellungen</button>
+    </div>
+  </section>
+  <div class="msg" id="msg" hidden role="status"></div>
+</div>
+<script src="overlay.js"></script>
+</body>
+</html>

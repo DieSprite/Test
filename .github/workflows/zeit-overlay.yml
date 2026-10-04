@@ -1,0 +1,32 @@
+name: Zeit-Overlay Windows-Build
+
+on:
+  push:
+    paths:
+      - 'zeit-overlay/**'
+      - '.github/workflows/zeit-overlay.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: zeit-overlay
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: zeit-overlay/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npx electron-builder --win portable nsis --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Zeit-Overlay-Windows
+          path: zeit-overlay/dist/*.exe
+          if-no-files-found: error

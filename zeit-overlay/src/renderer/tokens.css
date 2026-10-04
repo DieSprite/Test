@@ -1,0 +1,11 @@
+/* Corporate Design Frank Czernitzki · Stand 01.10.2026 */
+:root {
+  --green: #078d42; --green-deep: #066c22; --leaf: #58b141; --red: #e21f25;
+  --ink: #000000; --ink-muted: #60666f; --line: #dadada;
+  --surface: #ffffff; --surface-tint: #eef6f0; --on-green: #ffffff;
+  --font-display: "Red Hat Display", "Century Gothic", Arial, sans-serif;
+  --font-text: "Red Hat Text", "Segoe UI", Arial, sans-serif;
+  --space-1: 4px; --space-2: 8px; --space-3: 16px; --space-4: 24px;
+  --space-5: 32px; --space-6: 48px; --space-7: 64px;
+  --radius-none: 0px; --radius-sm: 5px; --radius-round: 50%;
+}
