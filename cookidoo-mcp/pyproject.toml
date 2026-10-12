@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cookidoo-mcp"
+version = "0.1.0"
+description = "Security-focused MCP server for Thermomix Cookidoo: recipe search, shopping list, meal plan, collections and custom recipes"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = [
+  # Upper bounds on purpose: the server also uses two internal helpers of
+  # cookidoo-api, so a new minor version has to be tested before it is allowed.
+  "cookidoo-api>=0.18.4,<0.19",
+  "fastmcp>=4.1,<5",
+  "aiohttp>=3.11,<4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.24"]
+
+[project.scripts]
+cookidoo-mcp = "cookidoo_mcp.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cookidoo_mcp"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
