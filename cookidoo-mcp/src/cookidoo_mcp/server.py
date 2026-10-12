@@ -25,6 +25,7 @@ from pydantic import Field
 
 from cookidoo_mcp import formatting as fmt
 from cookidoo_mcp.config import Settings
+from cookidoo_mcp.guided import Phrases, StepInput, step_to_api
 from cookidoo_mcp.service import CookidooMcpError, CookidooService
 
 INSTRUCTIONS = """\
@@ -46,6 +47,19 @@ GENERIC_ID = re.compile(r"^[A-Za-z0-9_-]{1,80}$")
 RecipeId = Annotated[
     str, Field(description="Official recipe ID like 'r59322', or a custom recipe ID.")
 ]
+STEPS_HELP = (
+    "One entry per step. Either plain text, or an object for guided cooking (TM6/TM7):\n"
+    "- {kind:'ingredient', ingredient:'200 g Mehl'} -> scale weighs the amount; text defaults to "
+    "'{ingredient} in den Mixtopf geben.'\n"
+    "- {kind:'settings', text:'Zwiebel {settings} zerkleinern.', time_seconds:5, speed:'5'} "
+    "(+ temperature_c 37-120, reverse true for Linkslauf); '{settings}' becomes '5 Sek./Stufe 5'\n"
+    "- {kind:'mode', mode:'DOUGH', time_seconds:120} (also TURBO, BLEND, WARM_UP, STEAMING, "
+    "BROWNING, RICE_COOKER)\n"
+    "Keep weighing and machine actions in separate steps. Positions are computed by the server; "
+    "use preview_custom_recipe to check the result first."
+)
+StepList = Annotated[list[StepInput], Field(min_length=1, max_length=100, description=STEPS_HELP)]
+
 RecipeIds = Annotated[
     list[str],
     Field(min_length=1, max_length=50, description="Recipe IDs (official 'r…' or custom)."),
@@ -82,6 +96,7 @@ REMOVE = ToolAnnotations(read_only_hint=False, destructive_hint=True, open_world
 
 def build_server(settings: Settings, service: CookidooService | None = None) -> FastMCP:
     service = service or CookidooService(settings)
+    phrases = Phrases(settings.language)
 
     @asynccontextmanager
     async def lifespan(_server: FastMCP):
@@ -250,6 +265,16 @@ def build_server(settings: Settings, service: CookidooService | None = None) -> 
 
         return await run("Loading collections", go)
 
+    @tool("read")
+    async def preview_custom_recipe(steps: StepList) -> dict[str, Any]:
+        """Show exactly which step texts and guided-cooking settings would be saved.
+
+        Works offline and changes nothing; use it to show the user the steps before
+        create_custom_recipe or update_custom_recipe.
+        """
+        instructions = _recipe_fields(phrases, steps=steps)["instructions"]
+        return {"steps": [_describe_step(i) for i in instructions]}
+
     # ----------------------------------------------------------------- write
 
     @tool("write")
@@ -412,26 +437,20 @@ def build_server(settings: Settings, service: CookidooService | None = None) -> 
         ingredients: Annotated[
             list[str], Field(min_length=1, max_length=100, description="One entry per ingredient incl. amount, e.g. '200 g Mehl'.")
         ],
-        steps: Annotated[
-            list[str],
-            Field(
-                min_length=1,
-                max_length=100,
-                description="One entry per step, with Thermomix settings, e.g. 'Zwiebel zugeben, 5 Sek./Stufe 5 zerkleinern.'",
-            ),
-        ],
+        steps: StepList,
         servings: Annotated[int, Field(ge=1, le=20)] = 4,
         prep_minutes: Annotated[int, Field(ge=1, le=1440)] = 15,
         total_minutes: Annotated[int, Field(ge=1, le=2880)] = 30,
         hints: Annotated[str, Field(max_length=2000)] = "",
         thermomix: list[Literal["TM5", "TM6", "TM7"]] = ["TM6"],
     ) -> dict[str, Any]:
-        """Create a new private recipe in the user's Cookidoo account.
+        """Create a new private recipe in the user's Cookidoo account, optionally with
+        guided cooking (the Thermomix takes over time, temperature and speed).
 
         Show the user the full recipe and get their OK before calling this.
         """
         fields = _recipe_fields(
-            name=name, ingredients=ingredients, steps=steps, servings=servings,
+            phrases, name=name, ingredients=ingredients, steps=steps, servings=servings,
             prep_minutes=prep_minutes, total_minutes=total_minutes, hints=hints, thermomix=thermomix,
         ) | {"image": None, "isImageOwnedByUser": False, "cookTime": 0,
              "workStatus": "PRIVATE", "recipeMetadata": {"requiresAnnotationsCheck": False}}
@@ -448,7 +467,7 @@ def build_server(settings: Settings, service: CookidooService | None = None) -> 
         recipe_id: RecipeId,
         name: Annotated[str | None, Field(min_length=1, max_length=200)] = None,
         ingredients: Annotated[list[str] | None, Field(min_length=1, max_length=100)] = None,
-        steps: Annotated[list[str] | None, Field(min_length=1, max_length=100)] = None,
+        steps: Annotated[list[StepInput] | None, Field(min_length=1, max_length=100, description=STEPS_HELP)] = None,
         servings: Annotated[int | None, Field(ge=1, le=20)] = None,
         prep_minutes: Annotated[int | None, Field(ge=1, le=1440)] = None,
         total_minutes: Annotated[int | None, Field(ge=1, le=2880)] = None,
@@ -461,7 +480,7 @@ def build_server(settings: Settings, service: CookidooService | None = None) -> 
         if OFFICIAL_ID.fullmatch(rid):
             raise ToolError("Official recipes cannot be edited; use copy_recipe_to_custom first.")
         fields = _recipe_fields(
-            name=name, ingredients=ingredients, steps=steps, servings=servings,
+            phrases, name=name, ingredients=ingredients, steps=steps, servings=servings,
             prep_minutes=prep_minutes, total_minutes=total_minutes, hints=hints, thermomix=thermomix,
         )
         if not fields:
@@ -564,15 +583,16 @@ async def _then(awaitable: Any, transform: Callable[[Any], Any]) -> Any:
 
 
 def _recipe_fields(
+    phrases: Phrases,
     *,
-    name: str | None,
-    ingredients: list[str] | None,
-    steps: list[str] | None,
-    servings: int | None,
-    prep_minutes: int | None,
-    total_minutes: int | None,
-    hints: str | None,
-    thermomix: list[str] | None,
+    name: str | None = None,
+    ingredients: list[str] | None = None,
+    steps: list[StepInput] | None = None,
+    servings: int | None = None,
+    prep_minutes: int | None = None,
+    total_minutes: int | None = None,
+    hints: str | None = None,
+    thermomix: list[str] | None = None,
 ) -> dict[str, Any]:
     """Map tool arguments to the field names of Cookidoo's recipe editor."""
     fields: dict[str, Any] = {}
@@ -581,7 +601,12 @@ def _recipe_fields(
     if ingredients is not None:
         fields["ingredients"] = [{"type": "INGREDIENT", "text": i.strip()} for i in ingredients if i.strip()]
     if steps is not None:
-        fields["instructions"] = [{"type": "STEP", "text": s.strip()} for s in steps if s.strip()]
+        try:
+            fields["instructions"] = [
+                step_to_api(s, phrases) for s in steps if not (isinstance(s, str) and not s.strip())
+            ]
+        except ValueError as e:
+            raise ToolError(str(e)) from e
     if servings is not None:
         fields["yield"] = {"value": servings, "unitText": "portion"}
     if prep_minutes is not None:
@@ -593,3 +618,20 @@ def _recipe_fields(
     if thermomix is not None:
         fields["tools"] = list(dict.fromkeys(thermomix))
     return fields
+
+
+def _describe_step(step: dict[str, Any]) -> dict[str, Any]:
+    """Human-readable view of one instruction payload, for previews."""
+    out: dict[str, Any] = {"text": step["text"]}
+    for ann in step.get("annotations", []):
+        pos = ann["position"]
+        utf16 = step["text"].encode("utf-16-le")
+        marked = utf16[pos["offset"] * 2 : (pos["offset"] + pos["length"]) * 2].decode("utf-16-le")
+        if ann["type"] == "INGREDIENT":
+            vol = ann["data"]["description"]["annotations"][0]["data"]
+            out["guided"] = {"type": "weigh", "marked": marked, "grams": vol["amount"]}
+        elif ann["type"] == "TTS":
+            out["guided"] = {"type": "settings", "marked": marked} | ann["data"]
+        else:
+            out["guided"] = {"type": "mode", "mode": ann["name"], "marked": marked} | ann["data"]
+    return out

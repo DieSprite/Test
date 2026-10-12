@@ -9,6 +9,7 @@ from cookidoo_api import CookidooAuthData
 
 from cookidoo_mcp.config import load_settings
 from cookidoo_mcp.formatting import html_to_text
+from cookidoo_mcp.guided import Phrases
 from cookidoo_mcp.server import _recipe_fields
 from cookidoo_mcp.token_store import TokenStore
 
@@ -50,6 +51,7 @@ def test_html_to_text():
 
 def test_recipe_fields_only_includes_given_values():
     assert _recipe_fields(
+        Phrases("de-DE"),
         name=" Brot ", ingredients=None, steps=["  ", "Kneten"], servings=None,
         prep_minutes=10, total_minutes=None, hints=None, thermomix=["TM6", "TM6", "TM7"],
     ) == {

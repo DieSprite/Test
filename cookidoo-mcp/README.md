@@ -15,7 +15,7 @@ Rezepte suchen, Einkaufsliste pflegen, Wochenplan planen, Sammlungen verwalten, 
 | Einkaufsliste | `add_recipes_to_shopping_list`, `add_meal_plan_to_shopping_list` (ganze Woche auf einmal, ohne Doppelte), `add_shopping_items`, `set_shopping_items_owned` (abhaken), `remove_recipes_from_shopping_list`, `remove_shopping_items` |
 | Wochenplan | `plan_recipes`, `move_planned_recipe`, `unplan_recipe` |
 | Sammlungen | `create_collection`, `add_recipes_to_collection`, `remove_recipe_from_collection` |
-| Eigene Rezepte | `copy_recipe_to_custom`, `create_custom_recipe`, `update_custom_recipe` |
+| Eigene Rezepte | `copy_recipe_to_custom`, `create_custom_recipe`, `update_custom_recipe`, `preview_custom_recipe` – **mit Guided Cooking** (siehe unten) |
 | Löschen (nur wenn freigeschaltet) | `clear_shopping_list`, `delete_custom_recipe`, `delete_collection` |
 
 Offizielle Rezepte und eigene Rezepte werden automatisch an der ID erkannt (`r59322` = offiziell).
@@ -116,6 +116,7 @@ claude mcp add cookidoo -- /PFAD/ZU/test/cookidoo-mcp/.venv/bin/cookidoo-mcp ser
 - „Setz alles aus dem Wochenplan auf die Einkaufsliste.“
 - „Such mir drei vegetarische Rezepte unter 30 Minuten ohne Pilze und plane sie für Mo–Mi.“
 - „Kopiere r59322 in meine Rezepte und mach es für 2 Personen.“
+- „Leg mir ein Guided-Cooking-Rezept für Pizzateig an und zeig mir vorher die Schritte.“
 
 ## Einstellungen (optional)
 
@@ -145,6 +146,31 @@ Beispiel nur lesen:
 - **Abmelden / Token löschen** → `uv run cookidoo-mcp logout`
 - **Logs** → Claude Desktop: Einstellungen → Entwickler → Logs öffnen (`mcp-server-cookidoo.log`).
 
+## Guided Cooking
+
+Eigene Rezepte können Schritte enthalten, die der Thermomix (TM6/TM7) direkt übernimmt –
+wie bei offiziellen Rezepten:
+
+| Schritt-Art | Beispiel (so übergibt Claude ihn) | Ergebnis im Rezept |
+|---|---|---|
+| Text | `"Zwiebel halbieren."` | normaler Schritt |
+| Zutat wiegen | `{kind: "ingredient", ingredient: "200 g Mehl"}` | „200 g Mehl in den Mixtopf geben.“ – Waage zeigt 200 g |
+| Einstellungen | `{kind: "settings", text: "Zwiebel {settings} zerkleinern.", time_seconds: 5, speed: "5"}` | „Zwiebel **5 Sek./Stufe 5** zerkleinern.“ – antippbar |
+| mit Hitze/Linkslauf | `{kind: "settings", time_seconds: 180, temperature_c: 120, reverse: true, speed: "1"}` | „**3 Min./120°C/Linkslauf/Stufe 1**“ |
+| Modus | `{kind: "mode", mode: "DOUGH", time_seconds: 120}` | „**Teig kneten 2 Min.**“ |
+
+Modi: `DOUGH` (Teig kneten), `TURBO`, `BLEND` (Mixen), `WARM_UP` (Aufwärmen), `STEAMING` (Dampfgaren),
+`BROWNING` (Anbraten), `RICE_COOKER` (Reis kochen).
+
+Der Server schreibt die Einstellung selbst in den Text und berechnet die Markierung
+(Cookidoo zählt in UTF-16-Zeichen – das ist bei anderen Servern eine häufige Fehlerquelle).
+Unmögliche Kombinationen werden vorher abgelehnt (z. B. Hitze über Stufe 6, Turbo länger als 2 Sek.).
+Mit `preview_custom_recipe` sieht man vorab genau, was gespeichert würde – ohne etwas zu ändern.
+
+Das Datenformat stammt aus dem gegen Cookidoo geprüften Beispiel von
+[vitaliemiron/cookidoo-mcp](https://github.com/vitaliemiron/cookidoo-mcp) (Apache-2.0); die Tests prüfen,
+dass dieser Server für dieselben Texte exakt dieselben Positionen berechnet.
+
 ## Grenzen
 
 - Nicht gegen ein echtes Konto getestet: Die automatischen Tests (`uv run pytest`) prüfen die Logik mit einem
@@ -152,8 +178,12 @@ Beispiel nur lesen:
 - Anlegen und Bearbeiten eigener Rezepte nutzt die (undokumentierte) Schnittstelle des Cookidoo-Web-Editors
   und zwei interne Hilfsfunktionen von cookidoo-api; deshalb ist cookidoo-api auf `<0.19` begrenzt.
 - Die Filterwerte `medium` und `advanced` beim Schwierigkeitsgrad sind nicht verifiziert (nur `easy`).
-- Keine Foto-Uploads und keine Guided-Cooking-Markierungen (Zeit/Temperatur/Stufe als antippbare Einstellung);
-  Schritte werden als Text angelegt.
+- Guided Cooking ist nicht mit einem echten Konto getestet. Vor allem die Modi (Teig, Dampfgaren, Anbraten …)
+  und deren Texte; bitte zuerst mit einem Testrezept ausprobieren.
+- Zutaten wiegen funktioniert nur mit Gramm-Angaben („200 g Mehl“), nicht mit Stück/ml/EL.
+- Varoma-Temperatur und Rezept-Fotos werden nicht unterstützt. Guided Cooking ist für TM6/TM7 gedacht.
+- Bestehende Guided-Einstellungen eines eigenen Rezepts werden beim Lesen nicht angezeigt
+  (cookidoo-api liefert nur den Text); `update_custom_recipe` mit `steps` ersetzt alle Schritte.
 
 ## Entwicklung
 
