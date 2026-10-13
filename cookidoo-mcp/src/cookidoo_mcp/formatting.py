@@ -36,8 +36,13 @@ def html_to_text(markup: str) -> str:
     return re.sub(r"\s+", " ", html.unescape("".join(parser.parts))).strip()
 
 
-def minutes(seconds: int | float | None) -> int | None:
-    return round(seconds / 60) if seconds else None
+def minutes(seconds: int | float | str | None) -> int | None:
+    # The calendar endpoint returns times as strings like "19200.0".
+    try:
+        value = float(seconds) if seconds is not None else 0.0
+    except (TypeError, ValueError):
+        return None
+    return round(value / 60) if value else None
 
 
 def search_hit(hit: CookidooSearchRecipeHit) -> dict[str, Any]:

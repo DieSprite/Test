@@ -86,3 +86,13 @@ async def test_service_translates_errors_without_leaking_details(tmp_path):
     with pytest.raises(CookidooMcpError, match="not found") as err:
         await service.run("Loading recipe", not_found)
     assert "SECRET" not in str(err.value)
+
+
+def test_minutes_accepts_calendar_strings():
+    from cookidoo_mcp.formatting import minutes
+
+    assert minutes("19200.0") == 320
+    assert minutes(600) == 10
+    assert minutes(None) is None
+    assert minutes("") is None
+    assert minutes("abc") is None
