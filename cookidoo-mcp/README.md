@@ -108,6 +108,12 @@ Claude Desktop → Einstellungen → Entwickler → Konfiguration bearbeiten (`c
 
 Claude Desktop komplett beenden und neu starten. Unter dem Werkzeug-Symbol erscheint „cookidoo“.
 
+> **Windows, Claude aus dem Microsoft Store:** Die Store-Version liest ihre Konfiguration nicht aus
+> `%APPDATA%\Claude\`, sondern aus
+> `%LOCALAPPDATA%\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\claude_desktop_config.json`
+> (Logs im Unterordner `logs`). Am sichersten über *Einstellungen → Entwickler → Konfiguration bearbeiten*
+> öffnen, und Claude vor dem Speichern vollständig beenden (Taskleiste → Rechtsklick → Beenden).
+
 **Claude Code** statt Desktop:
 ```bash
 claude mcp add cookidoo -- /PFAD/ZU/Test/cookidoo-mcp/.venv/bin/cookidoo-mcp serve
