@@ -54,10 +54,13 @@ Danach das Terminal neu öffnen.
 ### 2. Code holen und installieren
 
 ```bash
-git clone https://github.com/diesprite/test.git
-cd test/cookidoo-mcp
+git clone -b claude/cookidoo-mcp https://github.com/DieSprite/Test.git
+cd Test/cookidoo-mcp
 uv sync --frozen
 ```
+
+Ohne Git: auf GitHub den Branch `claude/cookidoo-mcp` wählen → „Code“ → „Download ZIP“, entpacken,
+im Terminal in den Ordner `cookidoo-mcp` wechseln und `uv sync --frozen` ausführen.
 
 `--frozen` installiert exakt die Versionen aus `uv.lock` (mit Prüfsummen) – nichts Neueres, Ungeprüftes.
 
@@ -84,7 +87,7 @@ Claude Desktop → Einstellungen → Entwickler → Konfiguration bearbeiten (`c
 {
   "mcpServers": {
     "cookidoo": {
-      "command": "/Users/DEINNAME/test/cookidoo-mcp/.venv/bin/cookidoo-mcp",
+      "command": "/Users/DEINNAME/Test/cookidoo-mcp/.venv/bin/cookidoo-mcp",
       "args": ["serve"]
     }
   }
@@ -96,7 +99,7 @@ Claude Desktop → Einstellungen → Entwickler → Konfiguration bearbeiten (`c
 {
   "mcpServers": {
     "cookidoo": {
-      "command": "C:\\Users\\DEINNAME\\test\\cookidoo-mcp\\.venv\\Scripts\\cookidoo-mcp.exe",
+      "command": "C:\\Users\\DEINNAME\\Test\\cookidoo-mcp\\.venv\\Scripts\\cookidoo-mcp.exe",
       "args": ["serve"]
     }
   }
@@ -107,7 +110,7 @@ Claude Desktop komplett beenden und neu starten. Unter dem Werkzeug-Symbol ersch
 
 **Claude Code** statt Desktop:
 ```bash
-claude mcp add cookidoo -- /PFAD/ZU/test/cookidoo-mcp/.venv/bin/cookidoo-mcp serve
+claude mcp add cookidoo -- /PFAD/ZU/Test/cookidoo-mcp/.venv/bin/cookidoo-mcp serve
 ```
 
 ### 5. Ausprobieren
