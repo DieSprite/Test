@@ -20,7 +20,32 @@ def load(p):
 
 fielddefs = load(os.path.join(KONF2, 'felder.json'))['list']
 FD = {f['id']: f for f in fielddefs}
+# Annahmen (vom Büro übernommen): EA = Endabnahme (wie in der ClickUp-SOP); fehlende ClickUp-Werte
+# kommen in den Katalog statt ersetzt zu werden; das doppelte Feld „Abnahme“ entfällt im Paket Abschluss.
+ZUSATZ_OPTS = {'wsn': [('Warten auf', 'wait')], 'ble': [('Benötigt', 'open')], 'ldk': [('Pläne korrigieren', 'wait')],
+               'plaene': [], 'statik': []}
+for f in fielddefs:
+    for v, kind in ZUSATZ_OPTS.get(f['id'], []):
+        if v not in [o['v'] for o in f.get('opts', [])]:
+            pos = next((i for i, o in enumerate(f['opts']) if o['kind'] in ('done', 'na')), len(f['opts']))
+            f['opts'].insert(pos, {'v': v, 'kind': kind})
+    if f['id'] == 'ea':
+        f['label'] = 'Endabnahme'
 OPTS = {f['id']: [o['v'] for o in f.get('opts', [])] for f in fielddefs}
+packages = load(os.path.join(KONF2, 'pakete.json'))['list']
+for pk in packages:
+    if pk['id'] == 'abschluss':
+        pk['fields'] = [x for x in pk['fields'] if x != 'abnahme']
+def final_value(fid):
+    """Erledigt-Wert eines Felds (für abgeschlossene Projekte und vorgelagerte Phasen)."""
+    d = FD[fid]
+    if d.get('type') == 'progress':
+        return 100
+    for want in ('done', 'na'):
+        for o in d.get('opts', []):
+            if o['kind'] == want:
+                return o['v']
+    return None
 
 # ---- Mitarbeiter: echte Liste aus Projektbuch v1 (mit ClickUp-User-IDs), ohne Beispiel-Gast
 emps = [e for e in load(os.path.join(KONF1, 'mitarbeiter.json'))['list'] if e.get('role') != 'extern']
@@ -46,8 +71,8 @@ def pick(field, value, unmapped):
     syn = {
         'complete': None, 'vollständig': None,  # werden je Feld unten aufgelöst
         'klärung frank': 'Klärung GF', 'offen aber warten': 'Warten auf', 'warten auf': 'Warten auf',
-        'benötigt': 'Offen', 'nicht raus': 'Nicht raus', 'raus': 'Raus', 'angefordert': 'Angefordert',
-        'bnd & doku': 'BnD & Doku', 'pläne korrigieren': 'Nachtrag', 'korrektur': 'Korrektur Statik',
+        'nicht raus': 'Nicht raus', 'raus': 'Raus', 'angefordert': 'Angefordert',
+        'bnd & doku': 'BnD & Doku', 'korrektur': 'Korrektur Statik',
         'angebot ist raus': 'Angebot raus', 'to do': 'Offen', 'open': 'Offen',
     }
     opts = OPTS.get(field, [])
@@ -63,6 +88,12 @@ def pick(field, value, unmapped):
                 return cand
     unmapped[(field, v)] += 1
     return None
+
+def optKindOf(fid, v):
+    for o in FD[fid].get('opts', []):
+        if o['v'] == v:
+            return o['kind']
+    return 'open'
 
 def ms2iso(x):
     if x in (None, '', 0):
@@ -271,7 +302,7 @@ for nr, items in sorted(groups.items()):
             p['leiter'] = ass[0]
         # Felder der Pakete anlegen
         for pk in PAKETE.get(kind, []):
-            pack = next((x for x in load(os.path.join(KONF2, 'pakete.json'))['list'] if x['id'] == pk), None)
+            pack = next((x for x in packages if x['id'] == pk), None)
             for fid in (pack or {}).get('fields', []):
                 if fid in FD and fid not in p['fields']:
                     p['fields'][fid] = empty_field(fid)
@@ -357,8 +388,26 @@ for nr, items in sorted(groups.items()):
             else:
                 unmapped[('custom field', norm(cf.get('name')))] += 1
     p['createdAt'] = min([c for c in created if c] or [TODAY])
+    p['fields'].pop('abnahme', None)
+    known = set()   # Felder, deren Wert wirklich aus ClickUp stammt
+    for kind, t, h in items:
+        known |= {CF2FIELD.get(norm(cf.get('name')).lower()) for cf in (t.get('custom_fields') or []) if cf.get('value') not in (None, '')}
+    reihenfolge = ['kommend', 'statik', 'plaene', 'bauphy', 'abschluss']
+    stufe = max([reihenfolge.index(k) for k in kinds if k in reihenfolge] or [-1])
+    erledigt_gruppen = set()
+    if stufe >= 2: erledigt_gruppen |= {'bodengutachten', 'dxf'}           # Statik ist gerechnet
+    if stufe >= 4: erledigt_gruppen |= {'wsn', 'wbn', 'ldk', 'heizlast', 'schall', 'barrierefrei', 'plaene', 'statik'}
+    for fid in erledigt_gruppen:
+        if fid in p['fields'] and fid not in known:
+            p['fields'][fid]['value'] = final_value(fid)
+    hat_cf = any(t.get('custom_fields') is not None for _, t, _ in items)
     if 'abgeschlossen' in kinds or (open_tasks == 0 and items):
         p['status'] = 'abgeschlossen'
+        for fid, f in p['fields'].items():
+            if fid not in known and FD[fid].get('type') in ('select', 'progress'):
+                v = final_value(fid)
+                if v is not None and optKindOf(fid, f['value']) not in ('done', 'na'):
+                    f['value'] = v
         closed_dates = [ms2iso(t.get('date_closed')) for _, t, _ in items if t.get('date_closed')]
         p['closedAt'] = max([c for c in closed_dates if c] or [TODAY])
     elif 'eis' in kinds:
@@ -367,6 +416,8 @@ for nr, items in sorted(groups.items()):
         p['status'] = 'anfrage'
     if not p['pakete']:
         p['pakete'] = []
+    if p['status'] in ('aktiv', 'wartend') and not hat_cf:
+        p['tags'].append('ClickUp-Felder prüfen')
     p['leiter'] = p['leiter'] or 'dennis'
     for fid, f in p['fields'].items():
         if f['assignee'] is None and FD[fid].get('role') == 'gf':
@@ -384,7 +435,7 @@ state = {
              'quelle': 'ClickUp-Übernahme ' + TODAY},
     'employees': emps,
     'fieldDefs': fielddefs,
-    'packages': load(os.path.join(KONF2, 'pakete.json'))['list'],
+    'packages': packages,
     'templates': load(os.path.join(KONF2, 'vorlagen.json'))['list'],
     'plankopf': load(os.path.join(KONF2, 'plankopf.json'))['list'],
     'views': load(os.path.join(KONF2, 'listen.json'))['list'],

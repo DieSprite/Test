@@ -17,3 +17,14 @@ Aufruf:
 - `<v1-konfig-dir>`: `konfig/mitarbeiter.json` mit den echten Mitarbeitenden und ihren ClickUp-IDs.
 
 Exporte und erzeugte Importdateien enthalten Kundendaten und gehören nicht ins Repository.
+
+## Übernommene Annahmen (21.10.2026)
+
+- ClickUp-Feld „EA“ = Endabnahme (wie in der ClickUp-SOP). Das Feld `ea` heißt im Katalog „Endabnahme“,
+  das doppelte Feld `abnahme` entfällt im Paket „Abschluss“.
+- ClickUp-Werte ohne Gegenstück kommen in den Katalog: WSN „Warten auf“, BLE „Benötigt“, LDK „Pläne korrigieren“.
+  „Offen aber warten“ → „Warten auf“, „Klärung Frank“ → „Klärung GF“.
+- Tasks mit gleicher Projektnummer werden ein Projekt (auch bei abweichendem Namen, siehe Prüfbericht).
+- To-Do-Listen und Unteraufgaben ohne Projektnummer werden nicht übernommen.
+- Felder erledigter Phasen gelten als erledigt; abgeschlossene Projekte haben keine offenen Leistungen.
+  Aktive Projekte ohne Custom-Field-Daten tragen das Schlagwort „ClickUp-Felder prüfen“.
