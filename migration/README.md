@@ -28,3 +28,9 @@ Exporte und erzeugte Importdateien enthalten Kundendaten und gehören nicht ins 
 - To-Do-Listen und Unteraufgaben ohne Projektnummer werden nicht übernommen.
 - Felder erledigter Phasen gelten als erledigt; abgeschlossene Projekte haben keine offenen Leistungen.
   Aktive Projekte ohne Custom-Field-Daten tragen das Schlagwort „ClickUp-Felder prüfen“.
+
+## Bestätigte Korrekturen (21.10.2026)
+
+- 26265: Bauort Wobbenbüll.
+- 24142: zwei Aufträge, ein Projekt (Dan Concept – Jannek Schumacher – Heist, Teilprojekte Wohnhaus/Garage).
+- 20455 und 22355 (mehrere Häuser unter einer Nummer) sowie 20392: als Teilprojekte; Stand je Haus in der Projektnotiz.

@@ -251,6 +251,15 @@ for t in tasks:
     groups[nr].append((kind, t, head))
 
 TODAY = dt.date.today().isoformat()
+
+# Vom Büro bestätigte Korrekturen (21.10.2026): Bauort und Teilprojekte bei mehrfach vergebenen Nummern
+KORREKTUREN = {
+    '26265': {'ort': 'Wobbenbüll'},
+    '24142': {'firma': 'Dan Concept', 'bauherr': 'Jannek Schumacher', 'ort': 'Heist', 'teile': ['Wohnhaus', 'Garage']},
+    '20455': {'firma': 'Stolberg', 'bauherr': 'Stolberg', 'ort': 'Porrenhof', 'teile': ['SV', 'RH', 'DH Zhou', 'DH Gehrmann']},
+    '22355': {'ort': 'Lunden', 'teile': ['Lunden 8', 'Lunden 8a']},
+    '20392': {'ort': 'Tellingstedt', 'teile': ['Bestandshalle', 'BA1']},
+}
 projects = []
 notes_report = []
 
@@ -422,8 +431,13 @@ for nr, items in sorted(groups.items()):
     for fid, f in p['fields'].items():
         if f['assignee'] is None and FD[fid].get('role') == 'gf':
             f['assignee'] = p['leiter']
+    names = {t.get('id'): norm(t.get('name')) for _, t, _ in items}
     p['notizen'] = 'Aus ClickUp übernommen am ' + TODAY + ':\n' + '\n'.join(
-        '- ' + (c['liste'] or '') + ' · ' + (c['status'] or '') + ' · ' + (c['url'] or '') for c in p['clickup'])
+        '- ' + names.get(c['id'], '') + ' · ' + norm(c['liste']) + ' · ' + norm(c['status']) + ' · ' + (c['url'] or '') for c in p['clickup'])
+    k = KORREKTUREN.get(nr)
+    if k:
+        for key, val in k.items():
+            p[key] = val
     if p['bauherr']:
         p['beteiligte'].append({'id': 'bh_' + p['id'], 'rolle': 'Bauherr', 'name': p['bauherr'], 'firma': '', 'telefon': '', 'email': '', 'notiz': ''})
     if len(items) > 1 and len({h['ort'] for _, _, h in items}) > 1:
