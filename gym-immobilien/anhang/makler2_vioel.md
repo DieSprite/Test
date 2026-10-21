@@ -1,0 +1,54 @@
+# Makler 2 – Viöl und Nordfriesland (Opus)
+Stand 21.10.2026, >25 Suchen, 30 Seiten. In Viöl selbst keine passende Halle und kein Gewerbegrundstück (Amt Viöl bietet nur Wohnbau: Haselund 95 €/m², Norstedt 85 €/m²). Beste Treffer Husum (11–14 km), Bredstedt (15 km), Silberstedt (13 km).
+
+## A) Miete
+| Nr | Objekt | Ort/Adresse | Typ | Fläche m² | Preis kalt/Monat | Objektart | Gym-Eignung | Anbieter | URL | Stand |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | Moderne Gewerbehalle Husum-Ost | Otto-Hahn-Str. 8, 25813 Husum | Miete | ca. 732 (EG 515, OG 217); optional +300 unisolierte Lagerhalle | 5.000 € VB netto (6,80 €/m²), NK 500 €, Kaution 15.000 € | Gewerbehalle Bj. 2001/2005, modernisiert 2026 | ★★★★ Ebenerdiger 515-m²-Teil, 12 Stellplätze, Wärmepumpe/BHKW/PV, Boden 8 t/m² | Dirk Hansen, Hansen Elektro- und Windtechnik e.K. | https://www.kleinanzeigen.de/s-anzeige/moderne-gewerbehalle-in-husum-ost-mit-guenstigen-betriebskosten/3543694573-277-16719 | 17.10.2026, sofort |
+| 2 | Mietfläche (potentiell Fitness/Gym) Fachmarktzentrum Husum | Siemensstr. 37, 25813 Husum | Miete | ca. 304 (+ 240-m²-Einheit) | auf Anfrage | Einzelhandel im Fachmarktzentrum | ★★★★ Ausdrücklich als Gym-geeignet beworben; Parkplätze, Laufkundschaft; für Vollsortiment eher klein | lt. Aggregator Hahn Gruppe (unbestätigt) | https://www.immobilienscout24.de/expose/168388512 (Captcha, Daten aus Trefferliste) | >31 Tage |
+| 3 | Laden mit Halle, Nachmieter gesucht | Schleswiger Chaussee 48, 25813 Husum | Miete (Nachmieter) | 350, teilbar ab 200 | bei Interesse (Platzhalter 1 €), NK 100 € | Laden + Halle | ★★★★ Parkplätze, 2 WCs, Küche, Aufenthaltsraum, Ausfallstraße | Laines Carstens (privat) | https://www.kleinanzeigen.de/s-anzeige/laden-mit-halle-nachmieter-gesucht-/3496280592-277-16719 | 02.09.2026, ab 09/2026 |
+| 4 | Lagerhalle/Lagerplatz/Büro | Altenwunge 20, 25813 Husum | Miete | 2.500 Halle + 250 Büro + 15.000 Außen | VB | Logistikhalle | ★★★ Groß, hoch, Sanitär; Teilbarkeit/Dämmung/Heizung klären | Niko Iwers / Erd- & Tiefbau | https://www.kleinanzeigen.de/s-anzeige/lagerhalle-lagerplatz-bueroflaechen-in-husum-zu-vermieten/3538568520-277-16719 | 12.10.2026, ab 01.01.2027 |
+| 5 | Industriehalle Husumer Außenhafen | Husum, GE Außenhafen | Miete | ca. 611 | 5,00 €/m² (ca. 3.055 €), Provision 1,19 KM | Gedämmte Industriehalle | ★★★ Gedämmt, Gasheizung, Wasser; Industriegelände, Parkplätze/Sanitär n. a. | Marsch u. Geest Immobilien (Oliver Gernert) | https://www.kleinanzeigen.de/s-anzeige/industriehalle-im-gewerbegebiet-husumer-aussenhafen-/3357346600-277-16719 ; https://www.immobilienscout24.de/expose/166430703 | 15.10.2026, sofort |
+| 6 | Produktionshalle Silberstedt | Hollingstedter Str. 2, 24887 Silberstedt | Miete, provisionsfrei | 1.000, teilbar ab 350; Grundstück 1.500 | 3 €/m² (ca. 3.000 €; ab 1.050 € für 350) | Produktionshalle | ★★★ Sehr günstig, beheizbar, 10 Stellplätze, teilbar; Sanitär/Höhe n. a. | Hauke Thomsen (privat) | https://www.immobilienscout24.de/expose/171970621 ; https://www.kleinanzeigen.de/s-anzeige/halle-zu-vermieten/3547706990-277-543 | n. a. |
+| 7 | Gewerbefläche Übernahme Fahrradladen | Hauptstr. 6, 25917 Leck | Miete | 350, teilbar ab 150 | VB | Laden + Werkstatt | ★★★ Zentral; ebenerdig/Parkplätze offen | Köster (privat) | https://www.kleinanzeigen.de/s-anzeige/gewerbeflaeche-in-leck-uebernahme-fahrradladen/3503342847-277-18122 | 04.09.2026, ab 01/2027 |
+| 8 | Lagerhalle mit Stellplätzen | Hohe Koppel 4, 25842 Langenhorn | Miete | 280 EG (+120 DG) | 1.200 € VB netto (4,30 €/m²), NK 150 € | Gewerbehalle | ★★ Fußbodenheizung, WCs, 1.200 m² Stellfläche; nur 3,05 m Höhe, klein | Georg Feddersen (privat), 0151 4042 9063 | https://www.kleinanzeigen.de/s-anzeige/langenhorn-nf-biete-lagerhalle-mit-stellplaetze/3521678061-277-16666 | 24.09.2026, ab 2027 |
+| 9 | Gewerbefläche 297 m² mit Rolltor | Dockkoogstr. 1, 25813 Husum | Miete, provisionsfrei | 297 (Halle nur 133) | 1.990 €, NK 100 € | Halle + Galerie | ★★ Nur Boutique-Studio; Elektroheizung | Paul S. (privat) | https://www.kleinanzeigen.de/s-anzeige/gewerbeflaeche-297-m-mit-rolltor-in-husum-kueche-buero/3538349932-277-16719 | 11.10.2026 |
+| 10 | Gewerbe- und Lagerobjekt | Harmen-Grapengeter-Str. 4A, Husum-Schobüll | Miete | 397 (ca. 250 Büro) | 2.500 €, NK 150 € | Büro/Lager | ★★ Überwiegend Büro | M. Carstens (privat) | https://www.kleinanzeigen.de/s-anzeige/spannendes-gewerbe-und-lagerobjekt-in-zentraler-lage-in-husum/3508517309-277-8324 | 10.09.2026 |
+| 11 | Gewerbefläche Büro/Werkstatt | Westerweg 2, 25860 Horstedt | Miete | 295 (Halle 65) | 1.950 €, NK 550 € | Büro + Werkstatt | ★ Halle zu klein | M. Wolf (privat) | https://www.kleinanzeigen.de/s-anzeige/gewerbeflaeche-mit-buero-werkstatt-lager-bis-1-000-mbit-s/3540563959-277-21111 | 14.10.2026 |
+
+## B) Kauf und Grundstücke
+| Nr | Objekt | Ort/Adresse | Typ | Fläche m² | Kaufpreis | Objektart | Gym-Eignung | Anbieter | URL | Stand |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 12 | Gewerbeimmobilie Bredstedt | Gressstr. 11, 25821 Bredstedt | Kauf | Halle 1.200 + Anbau 200; Grundstück 4.544; Erweiterung +600 möglich | 639.000 € VB | Halle Bj. 1985, Dach 2004/2023, PV 71 kWp, Gas | ★★★★ Bestes Kaufobjekt: Größe, umfahrbares Grundstück, Parkplätze, PV; Höhe/Sanitär klären | "NJM" (privat) | https://www.kleinanzeigen.de/s-anzeige/gewerbeimmobilie/3529968776-277-16664 | 09.10.2026 |
+| 13 | Gewerbegrundstück GE Ost | Carl-Benz-Str. 5, 25813 Husum | Kauf | ca. 4.000 (3.300 geschottert) | 495.000 € (124 €/m²) | Erschlossen, unbebaut | ★★★★ Neubau mit großem Parkplatz | GMHG UG & Co. KG | https://www.kleinanzeigen.de/s-anzeige/grosszuegiges-gewerbegrundstueck-4000m2-in-husum-zu-verkaufen/3532643764-277-16719 | 06.10.2026 |
+| 14 | WFG Erweiterung GE Husum-Ost (Lehmkuhlen) | 25813 Husum | Kauf | Teilflächen 1.180 / 1.180 / 2.280 / 3.060 | 56 €/m² zzgl. Erschließung (83,93–119,92 €/m² je Teilfläche) | GE, Fläche 5/6 MI, Höhe bis 11 m | ★★★★ Öffentliche Hand; in MI Sportanlage voraussichtlich zulässig (Bauamt) | WFG Nordfriesland (Tilmann Meyer) | https://www.immowelt.de/expose/d1439ce3-db66-45c2-98f3-147899f69821 ; https://wfg-nf.de/gewerbeflaechen/gewerbegebiet-in-husum-ost-erweiterung-lehmkuhlen/ | WFG 28.08.2026 |
+| 15 | Bungalow mit Halle (Resthof/Gewerbe) | 25884 Viöl, Nähe B200 | Kauf | Halle ca. 367 (Bj. 2011, 2 Hälften je Bad) + Wohnhaus 195 + ELW; Grundstück 2.430 | 780.000 € VB (vorher 870.000) | Wohnen + Halle | ★★★ Einziges Objekt mit Halle direkt in Viöl; nur im Paket mit Wohnhaus; eine Hälfte vermietet | privat | https://www.kleinanzeigen.de/s-anzeige/bungalow-haus-mit-halle-resthof-gewerbeimmobilie-werkstatt/3394725697-208-567 | 28.04.2026 |
+| 16 | WFG Gewerbe- und Energiepark Seeth (B200) | 25878 Seeth | Kauf | 3.100–16.700, teils mit Bestandshallen (6b, 7: Lagerhalle mit Büro/Sozialräumen) | 19,50 €/m² zzgl. Anschluss/Gebäude | Grundstücke mit Hallen | ★★★ Sehr günstig; peripher (20+ km) | WFG Nordfriesland | https://wfg-nf.de/gewerbeflaechen/gewerbe-und-energiepark-in-seeth-grundstueck-6b-lagerhalle-lagerhalle-mit-buero-sozialraeumen-direkt-an-der-b200/ | 28.08.2026 |
+| 17 | WFG GE Leck Nord-Erweiterung | 25917 Leck | Kauf | 83.718 teilbar | 44 €/m² | sofort bebaubar | ★★★ Neubau im Norden | WFG Nordfriesland | https://wfg-nf.de/gewerbeflaechen/gewerbegebiet-in-leck-nord-erweiterung/ | 28.08.2026 |
+| 18 | Gewerbeareal Kleinjörl (ehem. Raiffeisen) | 24992 Jörl (8 km von Viöl) | Kauf | Grundstück 7.328, Nfl. 850 | 399.000 €, Provision 3,57 % | Büro + Lagertrakte Bj. 1964 | ★★ Kleinteilig, teilvermietet | VR Immobilien eG | https://www.kleinanzeigen.de/s-anzeige/vielseitiges-gewerbeareal-in-kleinjoerl-ehemaliges-bank-und-lagergelaende/2971617874-277-530 | 02.10.2026 |
+| 19 | Ensemble mit Halle und Garagen | Ostenfeld | Kauf | Nfl. 278/505; Grundstück 2.451 | 675.000 €, Provision 3,57 % | Wohnhaus + Lagerboxen | ★★ Halle in vermietete Boxen geteilt | Brocks | https://www.immobilienscout24.de/expose/170079042 | k. A. |
+| 20 | Bürohaus Bj. 2017 mit Gewerbehalle | 25873 Oldersbek | Kauf | Halle 192 + Büro 235; Grundstück 2.200 | 750.000 €, Provision 2,975 % | Büro + Halle | ★★ Halle zu klein; 17 Stellplätze | Eggert Eggers Immobilienmakler | https://www.kleinanzeigen.de/s-anzeige/10-autominuten-nach-husum-modernes-buerohaus-bj-2017-mit-vielseitig-nutzbarer-gewerbehalle-/3386040884-277-29153 | 16.10.2026 |
+| 21 | Historischer Gasthof Kirchspielskrug Möllgaard | 25821 Breklum | Kauf | Nfl. 987; Grundstück 2.060; entkernter Saal | 598.000 €, Provision 5,95 % | Gastronomie | ★★ Saal denkbar; Baugenehmigung 5 Wohnungen | Densch & Schmidt | https://www.kleinanzeigen.de/s-anzeige/nordfriesische-geschichte-trifft-auf-neue-visionen/3309445805-277-27323 | 19.10.2026 |
+
+Ungeeignet: Schwabstedt Laden 558 m² (verpachtet bis 2036); Viöl Stadtvilla (Pizzeria 109 m²); Viöl Friesenhaus (Halle 80 m²); Bredstedt Gewerbegrundstück 2.059 m² 70.000 € RESERVIERT.
+
+## C) Makler / Ansprechpartner Nordfriesland
+| Name | Kontakt | Hinweis |
+|---|---|---|
+| WFG Nordfriesland mbH | wfg-nf.de; Tilmann Meyer +49 4841 6685-22, t.meyer@wfg-nf.de; Moritz Schulz +49 4841 6685-18 / 0174 2072563, m.schulz@wfg-nf.de; GF Dr. Matthias Hüppauff +49 4841 6685-13 | Wichtigster Ansprechpartner Gewerbegrundstücke |
+| Nord-Ostsee Sparkasse Immobilien | Großstr. 7-11, Husum; +49 4841 8998-8761; immobilien@nospa.de | |
+| Marsch u. Geest Immobilien, Oliver Gernert e.K. | Carl-Benz-Str. 4, Husum; 04841 669250 (Verzeichnis) | Gewerbehallen |
+| VR Immobilien eG | Am Markt 18, 24848 Kropp | Jörl, Schwabstedt |
+| Densch & Schmidt GmbH | Am Fördeufer 4, Flensburg | Breklum |
+| Eggert Eggers Immobilienmakler | – | Oldersbek, Schobüll |
+| Feddersen Immobilien (Jan-Jörg Feddersen) | – | Viöl |
+| R2 Immobilien, Rene Richardsen | – | Viöl |
+| Richardsen Immobilien-Vermietungen | richardsen-immobilien.de | Niebüll, Gewerbe |
+| Wertkonzepte Immobilien & Hausverwaltung e.K. | – | Husum |
+| Jacobi Immobilien KG | Hamburg; +49 40 325 66 50; info@jacobi-immobilien.de | Gewerbe Nordfriesland |
+| EG.NF Erschließungsgesellschaft Nordfriesland | Industriestr. 30a, Husum; jerome.stuck@eg-nf.de (unverifiziert) | |
+| Amt Viöl | amt-vioel.de; Westerende 41, 04843 2090-0 | Keine Gewerbeflächen gelistet; nach Bestand/B-Plänen fragen |
+
+## D) Markteinschätzung
+Viöl und Amtsgemeinden praktisch ohne Angebot. Gym-taugliche Hallen 300–1.500 m² konzentrieren sich auf Husum (Ost, Außenhafen, Altenwunge). Hallenmiete 3–7 €/m² (Silberstedt 3, Langenhorn 4,30, Außenhafen 5, Husum-Ost 6,80); Laden Husum 9–15 €/m². Kauf Bestandshallen 450–1.000 €/m². Grundstücke: Seeth 19,50, Leck 44, Husum-Lehmkuhlen 56–120, Bredstedt 77,40 €/m²; Viöl BRW Gewerbe ~25 (unverifiziert).
+Empfehlung: Miete Nr. 1 besichtigen, Nr. 2 und 3 anfragen; Kauf Nr. 12; Neubau Nr. 13/14; für Viöl direkt WFG und Amt Viöl nach nicht inserierten Flächen fragen.
