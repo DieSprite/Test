@@ -34,3 +34,14 @@ Exporte und erzeugte Importdateien enthalten Kundendaten und gehören nicht ins 
 - 26265: Bauort Wobbenbüll.
 - 24142: zwei Aufträge, ein Projekt (Dan Concept – Jannek Schumacher – Heist, Teilprojekte Wohnhaus/Garage).
 - 20455 und 22355 (mehrere Häuser unter einer Nummer) sowie 20392: als Teilprojekte; Stand je Haus in der Projektnotiz.
+
+## Vollständige Felddaten und Katalog-Ausbau (21.10.2026)
+
+- Custom Fields aller offenen Projekt-Tasks werden über `task.get_many` gelesen (`raw/enr2_*.json`, Format
+  `[id, date_created, start_date, parent, [[field_id, wert], …], [adresse, lat, lng]]`); abgeschlossene Tasks
+  gelten als erledigt. `fields_master.json` enthält auch die listeneigenen Felder (KfW, QNG, EM, Abschluss).
+- Neue Leistungsfelder: TPN (EM), AFP (Statik), Energieausweis und Bildnachweis (Abschluss), Vorzertifikat,
+  Termine QS, Abrechnung Zertifizierung (QNG); BNK-Version als eigenes Kopffeld `k_bnk`; „Info Klaus“ in die Projektnotiz.
+- LP-Codes: Endabnahme (`ea`) = S5, Energieausweis = E14.
+- In der Liste „Abnahme & Bescheinigung“ bedeutet ein leeres Blower-Door/Energieausweis „nicht erforderlich“ (NE),
+  außer bei geförderten Projekten.

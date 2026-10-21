@@ -31,11 +31,51 @@ for f in fielddefs:
             f['opts'].insert(pos, {'v': v, 'kind': kind})
     if f['id'] == 'ea':
         f['label'] = 'Endabnahme'
+# Weitere ClickUp-Felder ohne Gegenstück im Katalog (Ausbau 21.10.2026)
+NEUE_FELDER = [
+    ('statik', {'id': 'afp', 'name': 'AFP', 'label': 'AFP (aus ClickUp, Bedeutung bitte bestätigen)', 'group': 'Statik', 'role': 'statik',
+                'type': 'select', 'opts': [{'v': 'NV', 'kind': 'open'}, {'v': 'Vorhanden', 'kind': 'info'}, {'v': 'gecheckt', 'kind': 'done'}], 'avgH': 0.5}),
+    ('abschluss', {'id': 'energieausweis', 'name': 'Energieausweis', 'label': 'Energieausweis', 'group': 'Abschluss', 'role': 'energie',
+                   'type': 'select', 'opts': [{'v': 'Offen', 'kind': 'open'}, {'v': 'Angefordert', 'kind': 'wait'}, {'v': 'Fertig', 'kind': 'done'}, {'v': 'NE', 'kind': 'na'}],
+                   'lp': 'E14', 'avgH': 2, 'dueOffset': 150}),
+    ('abschluss', {'id': 'bildnachweis', 'name': 'Bildnachweis', 'label': 'Bildnachweis', 'group': 'Abschluss', 'role': 'verwaltung',
+                   'type': 'select', 'opts': [{'v': 'Benötigt', 'kind': 'open'}, {'v': 'Angefordert', 'kind': 'wait'}, {'v': '2x Angefordert', 'kind': 'bad'},
+                   {'v': 'Erhalten', 'kind': 'done'}, {'v': 'NE', 'kind': 'na'}], 'avgH': 0.5, 'dueOffset': 120}),
+    ('qng', {'id': 'vorzertifikat', 'name': 'Vorzertifikat', 'label': 'Vorzertifikat', 'group': 'QNG', 'role': 'audit',
+             'type': 'select', 'opts': [{'v': 'Offen', 'kind': 'open'}, {'v': 'Angefordert', 'kind': 'wait'}, {'v': 'Checken', 'kind': 'active'},
+             {'v': 'Vollständig', 'kind': 'info'}, {'v': 'Vorzertifiziert', 'kind': 'done'}, {'v': 'NE', 'kind': 'na'}], 'lp': 'A1', 'avgH': 4}),
+    ('qng', {'id': 'termineQS', 'name': 'Termine QS', 'label': 'Termine Qualitätssicherung (Anzahl)', 'group': 'QNG', 'role': 'audit', 'type': 'number', 'avgH': 0}),
+    ('qng', {'id': 'abrechnungZert', 'name': 'Abrechnung Zert.', 'label': 'Zertifizierung abgerechnet', 'group': 'QNG', 'role': 'verwaltung', 'type': 'progress', 'avgH': 0.5}),
+]
+for paket, fdef in NEUE_FELDER:
+    if fdef['id'] not in FD:
+        grp = [i for i, f in enumerate(fielddefs) if f.get('group') == fdef['group']]
+        fielddefs.insert((grp[-1] + 1) if grp else len(fielddefs), fdef)
+        FD[fdef['id']] = fdef
+for f in fielddefs:
+    if f['id'] == 'ea':
+        f['lp'] = 'S5'   # Endabnahme (LP-Katalog S5); E14 gehört zum Energieausweis
+if 'tpn' not in FD:
+    tpn = {'id': 'tpn', 'name': 'TPN', 'label': 'Technischer Projektnachweis versendet', 'group': 'Förderung',
+           'role': 'energie', 'type': 'select', 'opts': [{'v': 'Offen', 'kind': 'open'}, {'v': 'In Bearbeitung', 'kind': 'active'},
+           {'v': 'Raus', 'kind': 'done'}, {'v': 'NE', 'kind': 'na'}], 'avgH': 4, 'dueOffset': 30}
+    pos = next(i for i, f in enumerate(fielddefs) if f['id'] == 'emProzess') + 1
+    fielddefs.insert(pos, tpn)
+    FD['tpn'] = tpn
 OPTS = {f['id']: [o['v'] for o in f.get('opts', [])] for f in fielddefs}
 packages = load(os.path.join(KONF2, 'pakete.json'))['list']
 for pk in packages:
     if pk['id'] == 'abschluss':
         pk['fields'] = [x for x in pk['fields'] if x != 'abnahme']
+    if pk['id'] == 'em' and 'tpn' not in pk['fields']:
+        pk['fields'].insert(1, 'tpn')
+    for paket, fdef in NEUE_FELDER:
+        if pk['id'] == paket and fdef['id'] not in pk['fields']:
+            pk['fields'].append(fdef['id'])
+plankopf = load(os.path.join(KONF2, 'plankopf.json'))['list']
+if not any(x.get('key') == 'k_bnk' for x in plankopf):
+    plankopf.append({'key': 'k_bnk', 'label': 'BNK-Version', 'type': 'select', 'visible': True, 'builtin': False,
+                     'opts': ['Version 1.0', 'Version 1.1', 'Version 1.2', 'Version 1.3', 'Version 1.4', 'Version 2.0']})
 def final_value(fid):
     """Erledigt-Wert eines Felds (für abgeschlossene Projekte und vorgelagerte Phasen)."""
     d = FD[fid]
@@ -95,6 +135,9 @@ def optKindOf(fid, v):
             return o['kind']
     return 'open'
 
+def known_cf_values(t):
+    return {CF2FIELD.get(norm(cf.get('name')).lower()) for cf in (t.get('custom_fields') or []) if cf.get('value') not in (None, '')}
+
 def ms2iso(x):
     if x in (None, '', 0):
         return None
@@ -118,7 +161,7 @@ def cf_value(cf):
                 return norm(o.get('name'))
         return norm(v) if isinstance(v, str) and not re.fullmatch(r'[0-9a-f-]{36}|\d+', v) else None
     if t == 'date':
-        return ms2iso(v)
+        return ms2iso(v) if not isinstance(v, dict) else None
     if t == 'location':
         return v if isinstance(v, dict) else {'formatted_address': str(v)}
     if t == 'labels':
@@ -135,7 +178,9 @@ CF2FIELD = {
     'statik': 'statik', 'blower-door': 'blowerDoor', 'blower door': 'blowerDoor',
     'kfw unterlagen': 'kfwUnterlagen', 'unterlagen': 'kfwUnterlagen', 'qng unterlagen': 'qngUnterlagen',
     'unterlagen raus': 'unterlagenRaus', 'gebäudehandbuch': 'gebaeudehandbuch', 'ressourcenpass': 'ressourcenpass',
-    'lcc': 'lcc', 'steckbriefe': 'steckbriefe', 'pläne': 'plaene',
+    'lcc': 'lcc', 'steckbriefe': 'steckbriefe', 'pläne': 'plaene', 'tpn': 'tpn',
+    'energieausweis': 'energieausweis', 'bildnachweis': 'bildnachweis', 'afp': 'afp', 'vorzertifikat': 'vorzertifikat',
+    'termine qs': 'termineQS',
 }
 DATEFIELDS = {'vot': 'vot', 'nachfragen ab': 'nachfragen'}
 
@@ -201,32 +246,47 @@ for f in sorted(glob.glob(os.path.join(CU, '*.json'))):
         t.setdefault('list', {}).setdefault('id', base[:-5])
         tasks.append(t)
 
-# Custom Fields aus der Anreicherung (kompakt: [id, date_created, start, ?, ?, [[cf_id, wert], …]])
+# Custom Fields aus der Anreicherung
+#   enr_*.json  (erste Runde): [id, date_created, start, ?, ?, [[cf_id, wert], …]]
+#   enr2_*.json (vollständig):  [id, date_created, start_date, parent, [[cf_id, wert], …], [adresse, lat, lng] | null]
 master = json.load(open(os.path.join(CU, 'fields_master.json'), encoding='utf-8'))
 enr = {}
-for f in glob.glob(os.path.join(CU, 'raw', 'enr_*.json')):
+unbekannt = Counter()
+def cf_aus_paaren(paare):
+    cfs = []
+    for fid, v in paare or []:
+        m = master.get(fid)
+        if not m:
+            unbekannt[fid] += 1
+            continue
+        if m.get('type') == 'drop_down':
+            cfs.append({'name': m['name'], 'type': 'text', 'value': (m.get('options') or {}).get(str(v))})
+        else:
+            cfs.append({'name': m['name'], 'type': m.get('type'), 'value': v})
+    return cfs
+for f in sorted(glob.glob(os.path.join(CU, 'raw', 'enr*.json'))):
     d = json.load(open(f, encoding='utf-8'))
     if not isinstance(d, list):
         continue
+    neu = os.path.basename(f).startswith('enr2_')
     for row in d:
         if not (isinstance(row, list) and row):
             continue
-        cfs = []
-        for pair in (row[5] if len(row) > 5 and row[5] else []):
-            m = master.get(pair[0])
-            if not m:
-                continue
-            v = pair[1]
-            if m.get('type') == 'drop_down':
-                v = (m.get('options') or {}).get(str(v))
-                cfs.append({'name': m['name'], 'type': 'text', 'value': v})
-            else:
-                cfs.append({'name': m['name'], 'type': m.get('type'), 'value': v})
-        enr[row[0]] = {'date_created': row[1], 'custom_fields': cfs}
+        if neu:
+            cfs = cf_aus_paaren(row[4] if len(row) > 4 else [])
+            adr = row[5] if len(row) > 5 else None
+            if adr and adr[0]:
+                cfs.append({'name': 'Bauort', 'type': 'location',
+                            'value': {'formatted_address': adr[0], 'location': {'lat': adr[1], 'lng': adr[2]}}})
+            enr[row[0]] = {'date_created': row[1], 'start_date': row[2], 'parent': row[3], 'custom_fields': cfs}
+        else:
+            enr[row[0]] = {'date_created': row[1], 'custom_fields': cf_aus_paaren(row[5] if len(row) > 5 else [])}
 for t in tasks:
     e = enr.get(t.get('id'))
     if e:
-        t.setdefault('date_created', e['date_created'])
+        for k in ('date_created', 'start_date', 'parent'):
+            if e.get(k) and not t.get(k):
+                t[k] = e[k]
         t['custom_fields'] = e['custom_fields']
 ENRICHED = sum(1 for t in tasks if t.get('custom_fields') is not None)
 
@@ -374,10 +434,28 @@ for nr, items in sorted(groups.items()):
                         p['lat'], p['lng'] = loc.get('lat'), loc.get('lng')
                 else:
                     p['adresse'] = norm(val)
+            elif name == 'bnk version':
+                p['kopf']['k_bnk'] = norm(val)
+            elif name == 'info klaus':
+                p.setdefault('_info', []).append('Info Klaus: ' + norm(val))
+            elif name == 'afp (haken)':
+                if val in (True, 'true') and 'afp' not in known_cf_values(t):
+                    p['fields'].setdefault('afp', empty_field('afp'))['value'] = 'Vorhanden'
+            elif name == 'abrechnung zert.':
+                if isinstance(val, dict):
+                    val = val.get('percent_complete', val.get('current'))
+                try:
+                    if float(val) > 0 or 'abrechnungZert' in p['fields']:
+                        p['fields'].setdefault('abrechnungZert', empty_field('abrechnungZert'))['value'] = float(val)
+                except Exception: pass
             elif name in ('e-mail', 'email'):
                 p['email'] = norm(val)
             elif name == 'abrechnung bb':
-                try: p['fields'].setdefault('abrechnungBB', empty_field('abrechnungBB'))['value'] = float(val)
+                if isinstance(val, dict):   # manual_progress: {"percent_complete": …} oder {"current": …}
+                    val = val.get('percent_complete', val.get('current'))
+                try:
+                    if float(val) > 0 or 'abrechnungBB' in p['fields']:
+                        p['fields'].setdefault('abrechnungBB', empty_field('abrechnungBB'))['value'] = float(val)
                 except Exception: pass
             elif name == 'schlussrechnung':
                 v = pick('schlussrechnung', val, unmapped)
@@ -410,6 +488,10 @@ for nr, items in sorted(groups.items()):
         if fid in p['fields'] and fid not in known:
             p['fields'][fid]['value'] = final_value(fid)
     hat_cf = any(t.get('custom_fields') is not None for _, t, _ in items)
+    if any(k == 'abschluss' and t.get('custom_fields') is not None and not t.get('date_closed') for k, t, _ in items):
+        for fid in ('blowerDoor', 'energieausweis'):
+            if fid in p['fields'] and fid not in known and 'kfw' not in kinds and 'qng' not in kinds:
+                p['fields'][fid]['value'] = 'NE'
     if 'abgeschlossen' in kinds or (open_tasks == 0 and items):
         p['status'] = 'abgeschlossen'
         for fid, f in p['fields'].items():
@@ -434,6 +516,8 @@ for nr, items in sorted(groups.items()):
     names = {t.get('id'): norm(t.get('name')) for _, t, _ in items}
     p['notizen'] = 'Aus ClickUp übernommen am ' + TODAY + ':\n' + '\n'.join(
         '- ' + names.get(c['id'], '') + ' · ' + norm(c['liste']) + ' · ' + norm(c['status']) + ' · ' + (c['url'] or '') for c in p['clickup'])
+    if p.get('_info'):
+        p['notizen'] = '\n'.join(p.pop('_info')) + '\n\n' + p['notizen']
     k = KORREKTUREN.get(nr)
     if k:
         for key, val in k.items():
@@ -451,7 +535,7 @@ state = {
     'fieldDefs': fielddefs,
     'packages': packages,
     'templates': load(os.path.join(KONF2, 'vorlagen.json'))['list'],
-    'plankopf': load(os.path.join(KONF2, 'plankopf.json'))['list'],
+    'plankopf': plankopf,
     'views': load(os.path.join(KONF2, 'listen.json'))['list'],
     'dashboardsCustom': [],
     'settings': load(os.path.join(KONF2, 'einstellungen.json')),
@@ -466,6 +550,7 @@ ty = Counter(p['typ'] for p in projects)
 with open(REPORT, 'w', encoding='utf-8') as r:
     r.write('# ClickUp-Übernahme – Prüfbericht\n\n')
     r.write(f'- Tasks mit Zusatzfeldern (Custom Fields): {ENRICHED} von {len(tasks)}\n')
+    r.write('- Unbekannte Feld-IDs: ' + (', '.join(f'{k} ({v}×)' for k, v in unbekannt.most_common()) or 'keine') + '\n')
     r.write(f'- Tasks gelesen: {len(tasks)}\n- Projekte erzeugt: {len(projects)}\n')
     r.write('- Status: ' + ', '.join(f'{k} {v}' for k, v in st.most_common()) + '\n')
     r.write('- Typ: ' + ', '.join(f'{k} {v}' for k, v in ty.most_common()) + '\n')
