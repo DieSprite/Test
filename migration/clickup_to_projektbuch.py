@@ -587,6 +587,15 @@ if time_entries:
     bis = dt.datetime.fromtimestamp(time_entries[-1]['start'] / 1000).date().isoformat()
     notes_report.insert(0, f'Zeiteinträge {von} bis {bis}: ' + ', '.join(f'{k} {v}' for k, v in zeit_stat.items())
                         + ('. Nicht zugeordnete Tags: ' + ', '.join(f'{k} ({v}×)' for k, v in tag_offen.most_common()) if tag_offen else ''))
+# Listen: das entfallene Feld „Abnahme“ als Spalte durch EA (= Endabnahme) ersetzen
+views = load(os.path.join(KONF2, 'listen.json'))['list']
+for v in views:
+    for k in ('columns',):
+        if isinstance(v.get(k), list):
+            v[k] = list(dict.fromkeys('ea' if c == 'abnahme' else c for c in v[k]))
+    for r in v.get('rules') or []:
+        if isinstance(r.get('fields'), list):
+            r['fields'] = list(dict.fromkeys('ea' if c == 'abnahme' else c for c in r['fields']))
 state = {
     'meta': {'version': 5, 'created': int(time.time() * 1000), 'updated': int(time.time() * 1000), 'seeded': None,
              'quelle': 'ClickUp-Übernahme ' + TODAY},
@@ -595,7 +604,7 @@ state = {
     'packages': packages,
     'templates': load(os.path.join(KONF2, 'vorlagen.json'))['list'],
     'plankopf': plankopf,
-    'views': load(os.path.join(KONF2, 'listen.json'))['list'],
+    'views': views,
     'dashboardsCustom': [],
     'settings': load(os.path.join(KONF2, 'einstellungen.json')),
     'projects': projects, 'timeEntries': time_entries, 'activity': [], 'comments': [],
