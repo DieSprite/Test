@@ -1,0 +1,356 @@
+{
+"2a67b2fe-4e78-4b94-a574-da1b8a691779": {
+"name": "Bauort",
+"type": "location"
+},
+"4b27ae77-5718-42f1-af25-37761a0f1ec2": {
+"name": "LDK",
+"type": "drop_down",
+"options": {
+"4b9142c0-b2b0-4b00-84ab-4b1f3fa502d8": "Offen",
+"b81cc873-207b-45b1-9168-21c1576a64bb": "Pläne korrigieren",
+"d8541b6e-00db-4de6-a0fd-555c1531041d": "Pläne fertig",
+"68744db4-c3e9-4ab8-bef6-bf34ab61bfb9": "Nachtrag",
+"597bddad-aa83-4c5d-aa82-16eb1a64236e": "NE",
+"d0411e48-17d1-4af9-9666-618cf8bc3c2b": "Fertig"
+}
+},
+"4df06cc2-5d1d-4876-9376-16090eda4e65": {
+"name": "KfW",
+"type": "drop_down",
+"options": {
+"c55258e0-51a8-4d33-93b5-0f8bef9b9078": "KfW 40",
+"4c16b991-a036-4d97-8247-02abc0969c1d": "Effizienzhaussanierung",
+"abab3d66-d28b-4a6b-92a6-c014e00b510c": "Einzelmaßnahme",
+"dd8538d3-5dc5-4b80-af1d-1246ec49e629": "KfW 40+",
+"be2ed9c1-2dad-4b92-adc0-d950e057a8e3": "KfW 40 EE",
+"97ba94da-12b0-4505-8af2-1aa23db62dc5": "KfW 55",
+"e3dfe837-fbb6-459e-a7e7-ac714a730b20": "KfW 55 EE",
+"d94ea39a-9fac-4db5-bd3a-0ae08966833d": "KNN"
+}
+},
+"5928019b-a586-4a69-a799-11a665e9f638": {
+"name": "Nachfragen ab ",
+"type": "date"
+},
+"93a31dec-18db-4e00-9705-4244f7a73aef": {
+"name": "WSN",
+"type": "drop_down",
+"options": {
+"029ff005-2c58-4cf6-b228-d9610dd2233c": "NE",
+"dbd86652-a42b-4e7d-b8f7-e015fe1499ee": "Offen",
+"b40fac38-c000-4b52-ba7b-ddd0ccf9c027": "Fertig",
+"64c53226-6b91-4a97-a938-69ab89121322": "Nachtrag",
+"58037efb-196f-4ada-826e-21d1b3287723": "Extern",
+"345cc088-9ffd-47f4-9d27-f8c35993c814": "BTN",
+"fb5a2e28-a27a-4d82-9878-f9f4812f1ec5": "Schall",
+"0fe73ff9-7552-4199-b83d-12e74dfd722d": "Angefordert"
+}
+},
+"74961c1c-0e91-4c4a-b613-6301bf5854db": {
+"name": "WE",
+"type": "number"
+},
+"12135ea7-2daf-4c11-8a7a-eeea80b1eeef": {
+"name": "Bodengutachten",
+"type": "drop_down",
+"options": {
+"226a6994-3dd5-44a6-b6d5-39f8f0596ea1": "Offen",
+"d0fc32de-9e05-4c8f-93f3-8c1d024e7e27": "NE",
+"846a6fe4-826b-4853-971a-8c413e30f2ef": "Erhalten"
+}
+},
+"3444e6f5-6f75-4ac8-b573-23e036fc742e": {
+"name": "EA",
+"type": "drop_down",
+"options": {
+"26ac1ac3-748d-4227-b70d-337d96e2a471": "Stand?",
+"d8ff57d5-76f1-4857-ba9c-d1acf7fdab75": "Zu fahren",
+"0885e91d-28fa-479f-9c62-1ea63124b7e6": "Eingeplant",
+"4c376eac-fd8c-4cf7-a290-ecd28a39d007": "NE",
+"484610c6-2f8f-4c63-a0f3-ea6c1de91c05": "Durchgeführt ",
+"4caeea9e-2b4d-4cec-8907-1213e72241bf": "NM"
+}
+},
+"3856a6e7-8afe-4fe6-a4ad-cbb28cb592c3": {
+"name": "DXF",
+"type": "drop_down",
+"options": {
+"a31ba3c3-31a8-4533-b3fa-f9a08d21b7f6": "Offen",
+"c49f6a0e-f87f-4b7f-b9c3-fb73cf473f26": "NE",
+"42349317-c3e4-400a-812a-8ba4a7ac5f6d": "Erhalten"
+}
+},
+"b47aab86-b5e0-49bf-8fab-f04ab3f63f7b": {
+"name": "VOT ",
+"type": "date"
+},
+"cc31e2c7-bfb3-414a-8ce4-6cfb9dae5630": {
+"name": "Bew.Abn",
+"type": "drop_down",
+"options": {
+"28bfbfc0-392d-4bb7-b4e5-e25dbc23e726": "Stand?",
+"93ac75db-3968-4e8c-ae64-169d3282315f": "Zu fahren",
+"e9de066d-f8ba-4b35-94d1-fff422499236": "Eingeplant",
+"9a2bc9d0-29f2-4d8b-83a0-a0c4ebd1bed0": "NE",
+"80c40000-3456-480b-9a40-d8120afcb74b": "Durchgeführt "
+}
+},
+"d733a836-cce3-4334-a318-60487a53fb2b": {
+"name": "BLE ",
+"type": "drop_down",
+"options": {
+"06d676ec-876e-4c3a-baf9-bc0d7647b837": "Benötigt",
+"195b3527-1a33-4bd7-a04e-cc203b9be1c8": "NE",
+"c8193815-fc7c-439b-b807-cb4e353db6c3": "Angefordert ",
+"67a66662-3aa2-452d-b106-c3fd9a147647": "2x Angefordert",
+"0862b959-2400-4ab5-8db3-9a362beaf062": "Erhalten"
+}
+},
+"e6b7f903-d276-4fc6-8331-155de485eb27": {
+"name": "Rechnung EA",
+"type": "drop_down",
+"options": {
+"b1317563-4623-48ed-bbb7-672200fd66e1": "Offen",
+"7f905d1e-9858-46bc-8be9-bc81ddde56eb": "NE",
+"9f7bc149-5bdc-44e2-90ca-4d771e471f1f": "Bezahlt "
+}
+},
+"eee16b8c-fe02-47ae-9092-769dffef5c4a": {
+"name": "Abnahmeschein raus",
+"type": "drop_down",
+"options": {
+"744bf08b-f24c-4f59-bea9-0749efdca60f": "Nicht Raus ",
+"d297da11-baa8-4acd-9f86-53ccc02436a4": "Raus ",
+"189659ba-37c1-4631-98a5-e622b46cf000": "NE"
+}
+},
+"f4098e15-21f4-4ed2-8942-98023c0bd9b3": {
+"name": "Rechnung Bew",
+"type": "drop_down",
+"options": {
+"e9e30d4e-df0c-47d9-af6b-0e48b9a3b5e5": "Offen",
+"38394a3d-d55c-4dea-af53-ce55deb505ba": "NE",
+"975ea4db-791f-4f7c-9d9e-a85e08cd1770": "Bezahlt"
+}
+},
+"f9eff9e5-8f4b-457c-b50b-67353ffa1cdd": {
+"name": "AusführungsP",
+"type": "drop_down",
+"options": {
+"17609f87-5db4-45ea-9ca1-6c3a2d1b46cb": "NE",
+"2cab770e-de77-4790-8565-96142dc15ffa": "Erhalten",
+"35d84016-fd8c-4afd-9553-aad330164de2": "Checken",
+"742fcb6f-eff4-4b29-a2dc-3469e95c3999": "Geprüft"
+}
+},
+"1616361c-ba2e-45a6-9d13-59318ef3f58a": {
+"name": "Schlussrechnung",
+"type": "drop_down",
+"options": {
+"23e441d5-37e7-4c95-aa70-02ae29cb964c": "Offen",
+"e9adaccd-8bf7-4080-990c-d294acfa9869": "Bezahlt"
+}
+},
+"5718582c-db49-46fc-8c82-8baba9df98b3": {
+"name": "LCA",
+"type": "drop_down",
+"options": {
+"b921b0ec-9e78-45a4-bbb7-83b8d53f8e02": "NE",
+"d9552dd8-8ebf-490a-97a5-f7d0e2f3433d": "Offen",
+"2b1b91a0-b509-435e-8d81-d07bcb5b6164": "Fertig",
+"27462412-f92d-4e77-bfce-aac84be83227": "Nachtrag",
+"87574c6e-b3b7-4857-8a2e-4545201e2007": "Extern"
+}
+},
+"605a30f2-2c48-4257-8d32-10b11686ff5d": {
+"name": "Heizlast",
+"type": "drop_down",
+"options": {
+"9017b93c-11db-459f-a1e5-217521a5c181": "NE",
+"fe29e8be-d9ff-4a75-9eaf-059cdd41a688": "Offen",
+"6f4d4db0-ef6a-469a-8fac-14572a676dbf": "Fertig",
+"3085a5ee-2302-47de-b147-682f064bbd38": "Nachtrag"
+}
+},
+"7aa684e7-a065-4a84-a3e5-45e1bef92dc5": {
+"name": "Barrierefreiheit ",
+"type": "drop_down",
+"options": {
+"a4eda9d4-c20b-45fe-917e-28dc3efb10cb": "Offen",
+"99786a38-d92d-4dbe-ac6a-992ad97597ae": "Nachtrag",
+"685d3e32-9d8a-4d46-a8ba-e1f8e0a63276": "NE",
+"426c5cbd-8356-4112-bc6b-143a012b439f": "Fertig"
+}
+},
+"7e3f54b6-5422-4197-b1dd-1ce202c4c771": {
+"name": "Blower-Door",
+"type": "drop_down",
+"options": {
+"7fd9b2bb-f5bb-409e-9d69-8b1b531a5c32": "Offen",
+"aa28a39f-22f7-4ca2-b605-590be868bfb6": "NE",
+"e2748afa-d50b-4236-a20b-934119a8d3b2": "Erhalten",
+"e117eca4-73f7-456b-b195-c4daad1e36b9": "Bestanden",
+"ba91dc91-04ec-4ca7-97ac-8399722f8415": "Durchgefallen"
+}
+},
+"aa64e578-e826-4b64-8902-f45d872e19b0": {
+"name": "Unterlagen raus",
+"type": "drop_down",
+"options": {
+"d0874bf0-cf5a-4c1e-b6b0-74693152221c": "BnD ",
+"68129582-1354-48ea-9646-cda6588d2cfb": "BnD & DOKU ",
+"ded9ef10-c3eb-46bf-baf5-33384f42ea20": "Offen"
+}
+},
+"c242e560-92c9-489e-b5f0-395607126adb": {
+"name": "KfW Unterlagen",
+"type": "drop_down",
+"options": {
+"fe4862d1-03fb-4c53-9836-76bd537898d1": "Angefordert ",
+"49a8e186-89c8-416d-9606-047b7e26fc93": "Checken",
+"7e450177-92c3-4baf-ba35-5a942e6589e6": "Vollständig "
+}
+},
+"c6e2f2b9-b7b4-4c63-9b5b-bd2aa7a9382b": {
+"name": "E-Mail",
+"type": "email"
+},
+"f9dc8c11-7e75-4133-9b89-9c756dd6e71a": {
+"name": "QNG Unterlagen",
+"type": "drop_down",
+"options": {
+"778042f0-fd3b-4349-87fd-2f001c28f76a": "Angefordert",
+"95f47e9f-620a-4dda-aa04-695da57541a3": "Checken",
+"1338eb19-fa40-4bcd-bb8e-d00836ddfc97": "Vollständig",
+"1164b330-d8e7-416e-ad09-97c1fd302da0": "Zertifiziert"
+}
+},
+"f9e62a15-abd4-4c84-9bca-68ce5889d71b": {
+"name": "WBN",
+"type": "drop_down",
+"options": {
+"c60b3fb9-58b2-434d-874a-31c6d97f6e21": "NE",
+"dbc2ad8e-b71f-4806-a410-dd277060649f": "Offen",
+"bdc08780-b66f-45f5-b10f-7f56964648b7": "Fertig",
+"73207421-3e1e-42b3-bef2-b643ce6853df": "Nachtrag",
+"3f9e57e6-4414-4e78-b266-adba3e5cc393": "Extern"
+}
+},
+"e92f3339-8e18-43e9-b27c-438876ce775a": {
+"name": "Abrechnung BB ",
+"type": "manual_progress",
+"note": "list-level field (KfW Projekte)"
+},
+"62ec5177-f315-4e16-aca7-178a5667889b": {
+"name": "TPN",
+"type": "drop_down",
+"options": {
+"75077e31-b708-4ea9-bcb3-28e678957069": "Raus"
+}
+},
+"d7f45d01-e527-4ede-9ac6-4c9d042e9536": {
+"name": "Statik",
+"type": "drop_down",
+"options": {
+"8195c479-960f-4392-9f53-85017dc9c707": "NE",
+"59dcc448-b0ff-42a4-9c2b-033432e6efb3": "Fertig",
+"6906ee37-cfaf-4e6d-a2a6-77743a1fca8d": "Nachtrag"
+}
+},
+"ec32cd80-3fa7-4dfd-862c-c6aa51f1c195": {
+"name": "Bildnachweis",
+"type": "drop_down",
+"options": {
+"be9d1f39-0450-4bd4-a59f-925b754ced83": "Benötigt",
+"1255e242-c052-4e4f-800f-6c5995ba32ce": "Angefordert",
+"ddeb803c-8359-4886-ac7d-d7952ae5486a": "2x Angefordert",
+"ac65f223-7911-410c-8726-335124d14a83": "NE",
+"28d4694a-72f3-4666-b724-bffa2d4461b7": "Erhalten"
+}
+},
+"c31ed82e-58c9-42eb-b242-dcd51ece48dc": {
+"name": "Energieausweis",
+"type": "drop_down",
+"options": {
+"e73b38c4-6b9b-41a5-a6fd-ef2ec696473a": "Offen",
+"08d10844-0701-4aec-8e06-3e63754b1eec": "Angefordert",
+"85f821ff-de48-4697-a787-ce398364d129": "Fertig"
+}
+},
+"f97be55a-b15b-4140-b5d6-348eb2052c66": {
+"name": "AFP",
+"type": "drop_down",
+"options": {
+"3c3b120e-dcc4-4e07-b3d8-993060e08448": "NV",
+"9c162ab5-1866-4b52-b856-f2f234757423": "Vorhanden",
+"020afb77-4abd-4517-87a9-8aa72cd0c79e": "gecheckt"
+}
+},
+"17d67cec-b7b0-4788-ba1d-72d0974744b8": {
+"name": "Info Klaus",
+"type": "short_text"
+},
+"a7609ff6-689f-4213-8513-0ef7c2e1851d": {
+"name": "BNK Version",
+"type": "drop_down",
+"options": {
+"d306e914-cae0-412a-a45f-648f005c5a77": "Version 1.0",
+"fdc80ec3-6894-4f9c-92d6-8c6ee8776548": "Version 1.1",
+"4f671562-d062-4644-84ee-16508f2aaddd": "Version 1.2",
+"80ed6267-6677-4191-bdbe-a7cf640ceb8c": "Version 1.3",
+"0e6e9dc1-2097-4f9d-87d0-90980db0fb04": "Version 1.4",
+"1bfb285f-0f19-4d0b-a190-be14e1275e9f": "Version 2.0"
+}
+},
+"dbe2470e-0ec0-4ceb-8e1a-e4cea4dabe7a": {
+"name": "Vorzertifikat",
+"type": "drop_down",
+"options": {
+"3c2a599f-dba6-4418-8799-3af87243d77f": "Angefordert",
+"bcdd8e1b-deff-4925-8467-cabd788405e3": "Checken",
+"928cda2c-0554-44d4-87cf-996d09c26299": "Vollständig",
+"c73cfe1e-20e6-482a-afca-9c937f51d463": "Vorzertifiziert"
+}
+},
+"3060042b-0e03-4fa8-a53f-5d5b13b0a503": {
+"name": "Termine QS",
+"type": "number"
+},
+"48d88b0f-ed0a-41ad-b93b-18903c7b52f0": {
+"name": "Abrechnung Zert.",
+"type": "manual_progress"
+},
+"6e20bfdf-9961-4380-9746-e172abc22ee8": {
+"name": "Abrechnung Zert.",
+"type": "number"
+},
+"abd4408c-9d6e-4177-bcfd-a5ed77821ec6": {
+"name": "Gebäudehandbuch",
+"type": "drop_down",
+"options": {
+"9a24c887-c2fa-43b8-92da-002ea63f429f": "Offen",
+"15b6efe5-6dac-41aa-9b3c-a9aa1dccf09e": "Fertig"
+}
+},
+"b2c2484e-1bcd-48db-97ea-639f1431f098": {
+"name": "Ressourcenpass",
+"type": "drop_down",
+"options": {
+"0de04215-be37-434f-a437-e1f8d0230563": "Offen",
+"74c3279f-6670-42e4-8e33-f8624e003f81": "Fertig"
+}
+},
+"f1ce44e8-2f3f-49f8-afb3-f13c38f18a1a": {
+"name": "LCC",
+"type": "drop_down",
+"options": {
+"6bd2b586-9410-4d35-b851-f8ab03218e90": "Offen",
+"6a70dbee-c159-4457-9694-567093f9c6c5": "Fertig"
+}
+},
+"4cb45e6f-b161-4931-a85e-f8292a4b3faf": {
+"name": "AFP (Haken)",
+"type": "checkbox"
+}
+}
