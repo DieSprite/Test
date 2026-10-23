@@ -52,3 +52,14 @@ Optionales 6. Argument begrenzt auf Projektnummern-Anfänge, z. B. `25,26`. Die 
 Wechsel auf die Server-Version nachgeladen.
 
     python3 -I clickup_to_projektbuch.py <clickup> <v2-konfig> <v1-konfig> out.json pruefbericht.md 25,26
+
+## Zeiteinträge (23.10.2026)
+
+Liest `clickup/zeit/zeit_JJJJ-MM-TT.json` (`[id, user_id, task_id, nr, start, end, duration_ms, [tags], beschreibung]`).
+Projekt über die Nummer am Anfang des Task-Namens, Person über die ClickUp-ID in `konfig/mitarbeiter`,
+Leistung über den Tag laut „SOP – ClickUp-Pflege für die Leistungsprämie“ (TAG2FIELD im Skript).
+Einträge ohne Projektbezug werden gezählt, aber nicht übernommen; die Original-Tags stehen in der Notiz.
+
+Hinweise zum Abruf über den ClickUp-Konnektor: höchstens 50 Einträge je Abfrage; der Datumsfilter liefert nur
+Einträge, die vollständig im Zeitfenster liegen (Europe/Berlin) – also tageweise abfragen und bei mehr als 50
+nach Personen statt nach Uhrzeit aufteilen. Einträge auf Tasks ohne Lesezugriff lassen sich nicht abrufen.

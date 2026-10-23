@@ -534,6 +534,59 @@ if NUR:
     weg = [p['nr'] for p in projects if not any(p['nr'].startswith(x) for x in NUR)]
     projects = [p for p in projects if any(p['nr'].startswith(x) for x in NUR)]
     notes_report.insert(0, f'Nur Projektnummern {", ".join(NUR)}xxx übernommen; {len(weg)} ältere Projekte bleiben für den Server-Wechsel in ClickUp.')
+# ---- Zeiteinträge (clickup/zeit/zeit_JJJJ-MM-TT.json: [id, user_id, task_id, nr, start, end, duration_ms, [tags], beschreibung])
+# Leistung aus dem Tag laut „SOP – ClickUp-Pflege für die Leistungsprämie“, Abschnitt 4
+TAG2FIELD = {
+    'statik': 'statik', 's1': 'statik', 's2': 'statik', 'nachtrag': 'statik',
+    'bewehrungsabnahme': 'bewAbn', 'bewabn': 'bewAbn', 's4': 'bewAbn',
+    'endabnahme': 'ea', 'ea': 'ea', 's5': 'ea',
+    'p&k pläne': 'plaene', 'bewehrungspläne': 'plaene', 'positionsplan': 'plaene', 'z1': 'plaene', 'z2': 'plaene', 'z3': 'plaene',
+    'wsn': 'wsn', 'e1': 'wsn', 'schall': 'schall', 'e2': 'schall', 'bza': 'foerderphase', 'e3': 'foerderphase',
+    'baubegleitung': 'vot', 'bb1': 'vot', 'bb2': 'vot', 'e4': 'vot', 'e5': 'vot', 'unterlagen checken': 'kfwUnterlagen',
+    'blowerdoor': 'blowerDoor', 'blower-door': 'blowerDoor', 'e8': 'blowerDoor', 'e9': 'emProzess',
+    'wbn': 'wbn', 'e10': 'wbn', 'heizlast': 'heizlast', 'e11': 'heizlast', 'lca': 'lca', 'e12': 'lca', 'tpn': 'tpn', 'e13': 'tpn',
+    'ldk': 'ldk', 'energieausweis': 'energieausweis', 'a1': 'vorzertifikat', 'pre-assessment': 'vorzertifikat',
+    'lcc': 'lcc', 'ortstermin': 'emProzess',
+    'audit': 'qngProzess', 'a3': 'qngProzess', 'steckbrief': 'steckbriefe', 'a5': 'steckbriefe',
+}
+zeit_stat = Counter(); tag_offen = Counter(); time_entries = []; gesehen_ids = set()
+proj_nach_nr = {p['nr']: p for p in projects}
+for f in sorted(glob.glob(os.path.join(CU, 'zeit', 'zeit_*.json'))):
+    for row in json.load(open(f, encoding='utf-8')):
+        zid, uid_, tid, nr, start, end, dur, tags, beschr = (row + [None] * 9)[:9]
+        if zid in gesehen_ids:
+            continue
+        gesehen_ids.add(zid); zeit_stat['gelesen'] += 1
+        m = re.match(r'(\d{5})', str(nr or ''))
+        p = proj_nach_nr.get(m.group(1)) if m else None
+        if not tid or not m:
+            zeit_stat['ohne Projektbezug'] += 1; continue
+        if not p:
+            zeit_stat['Projekt nicht in dieser Datei'] += 1; continue
+        emp = CU2EMP.get(str(uid_))
+        if not emp:
+            zeit_stat['unbekannte Person'] += 1; continue
+        tags = [norm(t).lower() for t in (tags or [])]
+        fid = next((TAG2FIELD[t] for t in tags if t in TAG2FIELD), None)
+        for t in tags:
+            if t not in TAG2FIELD:
+                tag_offen[t] += 1
+        if fid and fid not in FD:
+            fid = None
+        start, end = int(start), int(end)
+        minuten = max(1, round(int(dur or (end - start)) / 60000))
+        notiz = norm(beschr) + ((' · ' if norm(beschr) else '') + 'ClickUp: ' + ', '.join(tags) if tags else '')
+        time_entries.append({'id': 'cu' + str(zid), 'employeeId': emp, 'projectId': p['id'], 'fieldId': fid, 'start': start, 'end': end,
+                             'minutes': minuten, 'tags': [fid] if fid else [], 'note': notiz[:300], 'billable': True})
+        zeit_stat['übernommen'] += 1
+        if not fid:
+            zeit_stat['ohne Leistung'] += 1
+time_entries.sort(key=lambda t: t['start'])
+if time_entries:
+    von = dt.datetime.fromtimestamp(time_entries[0]['start'] / 1000).date().isoformat()
+    bis = dt.datetime.fromtimestamp(time_entries[-1]['start'] / 1000).date().isoformat()
+    notes_report.insert(0, f'Zeiteinträge {von} bis {bis}: ' + ', '.join(f'{k} {v}' for k, v in zeit_stat.items())
+                        + ('. Nicht zugeordnete Tags: ' + ', '.join(f'{k} ({v}×)' for k, v in tag_offen.most_common()) if tag_offen else ''))
 state = {
     'meta': {'version': 5, 'created': int(time.time() * 1000), 'updated': int(time.time() * 1000), 'seeded': None,
              'quelle': 'ClickUp-Übernahme ' + TODAY},
@@ -545,7 +598,7 @@ state = {
     'views': load(os.path.join(KONF2, 'listen.json'))['list'],
     'dashboardsCustom': [],
     'settings': load(os.path.join(KONF2, 'einstellungen.json')),
-    'projects': projects, 'timeEntries': [], 'activity': [], 'comments': [],
+    'projects': projects, 'timeEntries': time_entries, 'activity': [], 'comments': [],
     'timers': {}, 'dashboards': {}, 'notes': {}, 'events': [],
     'currentUserId': 'dennis', 'theme': None,
 }
