@@ -45,3 +45,10 @@ Exporte und erzeugte Importdateien enthalten Kundendaten und gehören nicht ins 
 - LP-Codes: Endabnahme (`ea`) = S5, Energieausweis = E14.
 - In der Liste „Abnahme & Bescheinigung“ bedeutet ein leeres Blower-Door/Energieausweis „nicht erforderlich“ (NE),
   außer bei geförderten Projekten.
+
+## Nur aktuelle Projekte (23.10.2026)
+
+Optionales 6. Argument begrenzt auf Projektnummern-Anfänge, z. B. `25,26`. Die älteren Projekte werden erst beim
+Wechsel auf die Server-Version nachgeladen.
+
+    python3 -I clickup_to_projektbuch.py <clickup> <v2-konfig> <v1-konfig> out.json pruefbericht.md 25,26

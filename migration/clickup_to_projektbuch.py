@@ -13,6 +13,8 @@ import json, os, re, sys, glob, time, datetime as dt
 from collections import defaultdict, Counter
 
 CU, KONF2, KONF1, OUT, REPORT = sys.argv[1:6]
+# optional 6. Argument: nur Projektnummern mit diesen Anfängen, z. B. "25,26" (ältere folgen beim Wechsel auf den Server)
+NUR = [x.strip() for x in sys.argv[6].split(',') if x.strip()] if len(sys.argv) > 6 else []
 
 def load(p):
     d = json.load(open(p, encoding='utf-8'))
@@ -528,6 +530,10 @@ for nr, items in sorted(groups.items()):
         notes_report.append(nr + ': unterschiedliche Namen in ClickUp – ' + ' | '.join(t.get('name') for _, t, _ in items))
     projects.append(p)
 
+if NUR:
+    weg = [p['nr'] for p in projects if not any(p['nr'].startswith(x) for x in NUR)]
+    projects = [p for p in projects if any(p['nr'].startswith(x) for x in NUR)]
+    notes_report.insert(0, f'Nur Projektnummern {", ".join(NUR)}xxx übernommen; {len(weg)} ältere Projekte bleiben für den Server-Wechsel in ClickUp.')
 state = {
     'meta': {'version': 5, 'created': int(time.time() * 1000), 'updated': int(time.time() * 1000), 'seeded': None,
              'quelle': 'ClickUp-Übernahme ' + TODAY},
